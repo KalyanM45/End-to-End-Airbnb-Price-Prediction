@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Airbnb Price Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            background-color: #0071C5;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        select, input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        input[type="submit"] {
+            background-color: #0071C5;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #005493;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        function predictPrice() {
+            // Collect form data
+            var formData = new FormData(document.getElementById("predictionForm"));
+
+            // Send a POST request to the Flask server
+            fetch("/", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                // Display the prediction result in the result div
+                document.getElementById("result").innerHTML = "The Price is: " + data;
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>Airbnb Price Prediction</h1>
+    <form id="predictionForm" onsubmit="event.preventDefault(); predictPrice();">
+        <label for="propertytype">Property Type:</label>
+        <select name="propertytype" id="propertytype">
+            <option value="0">Apartment</option>
+            <option value="1">Bed & Breakfast</option>
+            <option value="2">Boat</option>
+            <option value="3">Boutique hotel</option>
+            <option value="4">Bungalow</option>
+            <!-- Add more options as needed -->
+        </select>
+
+        <label for="roomtype">Room Type:</label>
+        <select name="roomtype" id="roomtype">
+            <option value="0">Shared Room</option>
+            <option value="1">Private Room</option>
+            <option value="2">Entire Home/Apt</option>
+            <!-- Add more options as needed -->
+        </select>
+
+        <label for="bedrooms">Number of Bedrooms:</label>
+        <input type="number" name="bedrooms" id="bedrooms" value="0" min="0" max="10">
+
+        <label for="beds">Number of Beds:</label>
+        <input type="number" name="beds" id="beds" value="0" min="0" max="18">
+
+        <label for="amenties">Number of Features:</label>
+        <input type="number" name="amenties" id="amenties" value="2" min="2" max="1496">
+
+        <label for="accommodates">Number of Accommodates:</label>
+        <input type="number" name="accommodates" id="accommodates" value="1" min="1" max="16">
+
+        <label for="bathrooms">Number of Bathrooms:</label>
+        <input type="number" name="bathrooms" id="bathrooms" value="0" min="0" max="8">
+
+        <label for="bedtype">Bed Type:</label>
+        <select name="bedtype" id="bedtype">
+            <option value="0">Airbed</option>
+            <option value="1">Couch</option>
+            <option value="2">Futon</option>
+            <option value="3">Pull-out Sofa</option>
+            <option value="4">Real Bed</option>
+        </select>
+
+        <label for="canceltype">Cancellation Policy:</label>
+        <select name="canceltype" id="canceltype">
+            <option value="0">Flexible</option>
+            <option value="1">Moderate</option>
+            <option value="2">Strict</option>
+            <option value="3">Super strict</option>
+            <option value="4">Advanced Super Strict</option>
+        </select>
+
+        <label for="clean">Cleaning Fee:</label>
+        <select name="clean" id="clean">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select>
+
+        <label for="city">City:</label>
+        <select name="city" id="city">
+            <option value="0">Boston</option>
+            <option value="1">Chicago</option>
+            <option value="2">Washington, D.C.</option>
+            <option value="3">Los Angeles</option>
+            <option value="4">New York</option>
+            <option value="5">San Francisco</option>
+        </select>
+
+        <label for="dp">Host has Profile Pic?</label>
+        <select name="dp" id="dp">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select>
+
+        <label for="verify">Verified Host:</label>
+        <select name="verify" id="verify">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select>
+
+        <label for="hostresponse">Host Response Rate:</label>
+        <input type="number" name="hostresponse" id="hostresponse" value="0" min="0" max="100">
+
+        <label for="instbook">Instant Booking:</label>
+        <select name="instbook" id="instbook">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select>
+
+        <label for="lat">Latitude:</label>
+        <input type="number" name="lat" id="lat" value="0.0" step="0.000001">
+
+        <label for="long">Longitude:</label>
+        <input type="number" name="long" id="long" value="0.0" step="0.000001">
+
+        <label for="review">Number of Reviews:</label>
+        <input type="number" name="review" id="review" value="0" min="0" max="1000">
+
+        <label for="overallreview">Review Rating:</label>
+        <input type="number" name="overallreview" id="overallreview" value="0" min="0" max="100">
+
+        <input type="submit" value="Predict Price">
+    </form>
+    <center><div id="result"></div></center>
+    
+</body>
+</html>

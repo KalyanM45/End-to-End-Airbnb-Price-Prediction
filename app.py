@@ -1,45 +1,44 @@
-from flask import Flask, render_template, request
-from PIL import Image
-import pickle
+from flask import Flask, request, render_template
+from src.Airbnb.pipelines.Prediction_Pipeline import CustomData, PredictPipeline
 
 app = Flask(__name__)
-
-# Load the model
-model = pickle.load(open("catboostalgo.pkl", "rb"))
 
 # Define the home route
 @app.route("/", methods=["GET", "POST"])
 def home():
     if request.method == "POST":
-        input_propertytype = int(request.form["propertytype"])
-        input_roomtype = int(request.form["roomtype"])
-        input_bedrooms = int(request.form["bedrooms"])
-        input_beds = int(request.form["beds"])
-        input_amenties = int(request.form["amenties"])
-        input_accommodates = int(request.form["accommodates"])
-        input_bathrooms = int(request.form["bathrooms"])
-        input_bedtype = int(request.form["bedtype"])
-        input_canceltype = int(request.form["canceltype"])
-        input_clean = int(request.form["clean"])
-        input_city = int(request.form["city"])
-        input_dp = int(request.form["dp"])
-        input_verify = int(request.form["verify"])
-        input_hostresponse = int(request.form["hostresponse"])
-        input_instbook = int(request.form["instbook"])
-        input_lat = float(request.form["lat"])
-        input_long = float(request.form["long"])
-        input_review = int(request.form["review"])
-        input_overallreview = int(request.form["overallreview"])
+        data = CustomData(
+            property_type=request.form.get("propertytype"),
+            room_type=request.form.get("roomtype"),
+            bedrooms=int(request.form.get("bedrooms")),
+            beds=int(request.form.get("beds")),
+            amenities=int(request.form.get("amenties")),
+            accommodates=int(request.form.get("accommodates")),
+            bathrooms=float(request.form.get("bathrooms")),
+            bed_type=request.form.get("bedtype"),
+            cancellation_policy=request.form.get("canceltype"),
+            cleaning_fee=float(request.form.get("clean")),
+            city=request.form.get("city"),
+            host_has_profile_pic=request.form.get("dp"),
+            host_identity_verified=request.form.get("verify"),
+            host_response_rate=request.form.get("hostresponse"),
+            instant_bookable=request.form.get("instbook"),
+            latitude=float(request.form.get("lat")),
+            longitude=float(request.form.get("long")),
+            number_of_reviews=int(request.form.get("review")),
+            review_scores_rating=float(request.form.get("overallreview"))
+        )
 
-        # Make a prediction
-        prediction = model.predict([[input_propertytype, input_roomtype, input_amenties, input_accommodates, input_bathrooms,
-                                      input_bedtype, input_canceltype, input_clean, input_city, input_dp, input_verify,
-                                      input_hostresponse, input_instbook, input_lat, input_long, input_review,
-                                      input_overallreview, input_bedrooms, input_beds]])
+        final_data = data.get_data_as_dataframe()
 
-        return str(prediction[0])
+        predict_pipeline = PredictPipeline()
 
-    return render_template("index.html")
+        pred = predict_pipeline.predict(final_data)
 
-if __name__ == "__main__":
-    app.run(debug=True,host="0.0.0.0",port=5000)
+        result = round(pred[0], 2)
+
+        return render_template("result.html", final_result=result)
+
+# Execution begins
+if __name__ == '__main__':
+    app.run(host="0.0.0.0", port=8080, debug=True)

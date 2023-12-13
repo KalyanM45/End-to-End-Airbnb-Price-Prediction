@@ -1,4 +1,5 @@
 import os
+import numpy as np
 import sys
 import pandas as pd
 from src.Airbnb.logger import logging
@@ -30,7 +31,7 @@ class CustomData:
                  room_type: str,
                  amenities: int,
                  accommodates: int,
-                 bathrooms: float,
+                 bathrooms: int,
                  bed_type: str,
                  cancellation_policy: str,
                  cleaning_fee: float,
@@ -42,7 +43,7 @@ class CustomData:
                  latitude: float,
                  longitude: float,
                  number_of_reviews: int,
-                 review_scores_rating: float,
+                 review_scores_rating: int,
                  bedrooms: int,
                  beds: int):
         
@@ -90,6 +91,7 @@ class CustomData:
                 'beds': [self.beds]
             }
             df = pd.DataFrame(custom_data_input_dict)
+            df = np.reshape(df, (19,))
             logging.info('Dataframe Gathered')
             return df
         except Exception as e:

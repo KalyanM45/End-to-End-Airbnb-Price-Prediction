@@ -1,7 +1,0 @@
-[2023-11-13 17:44:39,668] 21 root - INFO - Data ingestion started
-[2023-11-13 17:44:40,976] 24 root - INFO - Read the Data from the csv file
-[2023-11-13 17:44:42,803] 28 root - INFO - Created the raw data file
-[2023-11-13 17:44:42,803] 30 root - INFO - Splitting the data into train and test
-[2023-11-13 17:44:42,818] 32 root - INFO - Data Splitting is done
-[2023-11-13 17:44:44,740] 36 root - INFO - Created the train and test data files
-[2023-11-13 17:44:44,740] 37 root - INFO - Data ingestion completed

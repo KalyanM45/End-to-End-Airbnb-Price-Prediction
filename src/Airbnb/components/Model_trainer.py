@@ -2,7 +2,6 @@ import os
 import sys
 import numpy as np
 import pandas as pd
-from xgboost import XGBRegressor
 from dataclasses import dataclass
 from src.Airbnb.logger import logging
 from catboost import CatBoostRegressor
@@ -39,7 +38,6 @@ class ModelTrainer:
             'Elasticnet':ElasticNet(),
             'RandomForestRegressor':RandomForestRegressor(),
             'GradientBoostingRegressor':GradientBoostingRegressor(),
-            'XGBRegressor':XGBRegressor(),
             'CatBoostRegressor':CatBoostRegressor() 
         }
             
@@ -66,6 +64,3 @@ class ModelTrainer:
         except Exception as e:
             logging.info('Exception occured at Model Training')
             raise customexception(e,sys)
-
-        
-    

@@ -1,187 +1,158 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style.css')}}">
     <title>Airbnb Price Prediction</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-
-        h1 {
-            background-color: #0071C5;
-            color: white;
-            padding: 10px;
-            text-align: center;
-        }
-
-        form {
-            background-color: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        label {
-            display: block;
-            margin-top: 10px;
-            font-weight: bold;
-        }
-
-        select, input[type="number"] {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-        }
-
-        input[type="submit"] {
-            background-color: #0071C5;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            margin-top: 15px;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #005493;
-        }
-
-        #result {
-            margin-top: 20px;
-            font-weight: bold;
-        }
-    </style>
-    <script>
-        function predictPrice() {
-            // Collect form data
-            var formData = new FormData(document.getElementById("predictionForm"));
-
-            // Send a POST request to the Flask server
-            fetch("/", {
-                method: "POST",
-                body: formData
-            })
-            .then(response => response.text())
-            .then(data => {
-                // Display the prediction result in the result div
-                document.getElementById("result").innerHTML = "The Price is: " + data;
-            });
-        }
-    </script>
 </head>
+
 <body>
     <h1>Airbnb Price Prediction</h1>
-    <form id="predictionForm" onsubmit="event.preventDefault(); predictPrice();">
-        <label for="propertytype">Property Type:</label>
-        <select name="propertytype" id="propertytype">
-            <option value="0">Apartment</option>
-            <option value="1">Bed & Breakfast</option>
-            <option value="2">Boat</option>
-            <option value="3">Boutique hotel</option>
-            <option value="4">Bungalow</option>
-            <!-- Add more options as needed -->
-        </select>
+    <form action="{{url_for('home')}}" method="POST">
+        <div class="form-group">
+            <label for="property_type">Property Type:</label>
+            <select name="property_type" id="property_type">
+                <option value="Apartment">Apartment</option>
+                <option value="Bed & Breakfast">Bed & Breakfast</option>
+                <option value="Boat">Boat</option>
+                <option value="Boutique hotel">Boutique hotel</option>
+                <option value="Bungalow">Bungalow</option>
+                <!-- Add more options as needed -->
+            </select>
+        </div>
 
-        <label for="roomtype">Room Type:</label>
-        <select name="roomtype" id="roomtype">
-            <option value="0">Shared Room</option>
-            <option value="1">Private Room</option>
-            <option value="2">Entire Home/Apt</option>
-            <!-- Add more options as needed -->
-        </select>
+        <div class="form-group">
+            <label for="room_type">Room Type:</label>
+            <select name="room_type" id="room_type">
+                <option value="Shared Room">Shared Room</option>
+                <option value="Private Room">Private Room</option>
+                <option value="Entire Home/Apt">Entire Home/Apt</option>
+                <!-- Add more options as needed -->
+            </select>
+        </div>
 
-        <label for="bedrooms">Number of Bedrooms:</label>
-        <input type="number" name="bedrooms" id="bedrooms" value="0" min="0" max="10">
+        <div class="form-group">
+            <label for="bedrooms">Number of Bedrooms:</label>
+            <input type="number" name="bedrooms" id="bedrooms" value="0" min="0" max="10">
+        </div>
 
-        <label for="beds">Number of Beds:</label>
-        <input type="number" name="beds" id="beds" value="0" min="0" max="18">
+        <div class="form-group">
+            <label for="beds">Number of Beds:</label>
+            <input type="number" name="beds" id="beds" value="0" min="0" max="18">
+        </div>
 
-        <label for="amenties">Number of Features:</label>
-        <input type="number" name="amenties" id="amenties" value="2" min="2" max="1496">
+        <div class="form-group">
+            <label for="amenities">Number of Amenities:</label>
+            <input type="number" name="amenities" id="amenities" value="2" min="2" max="1496">
+        </div>
 
-        <label for="accommodates">Number of Accommodates:</label>
-        <input type="number" name="accommodates" id="accommodates" value="1" min="1" max="16">
+        <div class="form-group">
+            <label for="accommodates">Number of Accommodates:</label>
+            <input type="number" name="accommodates" id="accommodates" value="1" min="1" max="16">
+        </div>
 
-        <label for="bathrooms">Number of Bathrooms:</label>
-        <input type="number" name="bathrooms" id="bathrooms" value="0" min="0" max="8">
+        <div class="form-group">
+            <label for="bathrooms">Number of Bathrooms:</label>
+            <input type="number" name="bathrooms" id="bathrooms" value="0" min="0" max="8">
+        </div>
 
-        <label for="bedtype">Bed Type:</label>
-        <select name="bedtype" id="bedtype">
-            <option value="0">Airbed</option>
-            <option value="1">Couch</option>
-            <option value="2">Futon</option>
-            <option value="3">Pull-out Sofa</option>
-            <option value="4">Real Bed</option>
-        </select>
+        <div class="form-group">
+            <label for="bed_type">Bed Type:</label>
+            <select name="bed_type" id="bed_type">
+                <option value="Airbed">Airbed</option>
+                <option value="Couch">Couch</option>
+                <option value="Futon">Futon</option>
+                <option value="Pull-out Sofa">Pull-out Sofa</option>
+                <option value="Real Bed">Real Bed</option>
+            </select>
+        </div>
 
-        <label for="canceltype">Cancellation Policy:</label>
-        <select name="canceltype" id="canceltype">
-            <option value="0">Flexible</option>
-            <option value="1">Moderate</option>
-            <option value="2">Strict</option>
-            <option value="3">Super strict</option>
-            <option value="4">Advanced Super Strict</option>
-        </select>
+        <div class="form-group">
+            <label for="cancellation_policy">Cancellation Policy:</label>
+            <select name="cancellation_policy" id="cancellation_policy">
+                <option value="Flexible">Flexible</option>
+                <option value="Moderate">Moderate</option>
+                <option value="Strict">Strict</option>
+                <option value="Super strict">Super strict</option>
+                <option value="Advanced Super Strict">Advanced Super Strict</option>
+            </select>
+        </div>
 
-        <label for="clean">Cleaning Fee:</label>
-        <select name="clean" id="clean">
-            <option value="1">Yes</option>
-            <option value="0">No</option>
-        </select>
+        <div class="form-group">
+            <label for="cleaning_fee">Cleaning Fee:</label>
+            <select name="cleaning_fee" id="cleaning_fee">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+        </div>
 
-        <label for="city">City:</label>
-        <select name="city" id="city">
-            <option value="0">Boston</option>
-            <option value="1">Chicago</option>
-            <option value="2">Washington, D.C.</option>
-            <option value="3">Los Angeles</option>
-            <option value="4">New York</option>
-            <option value="5">San Francisco</option>
-        </select>
+        <div class="form-group">
+            <label for="city">City:</label>
+            <select name="city" id="city">
+                <option value="Boston">Boston</option>
+                <option value="Chicago">Chicago</option>
+                <option value="Washington, D.C.">Washington, D.C.</option>
+                <option value="Los Angeles">Los Angeles</option>
+                <option value="New York">New York</option>
+                <option value="San Francisco">San Francisco</option>
+            </select>
+        </div>
 
-        <label for="dp">Host has Profile Pic?</label>
-        <select name="dp" id="dp">
-            <option value="1">Yes</option>
-            <option value="0">No</option>
-        </select>
+        <div class="form-group">
+            <label for="host_has_profile_pic">Host has Profile Pic?</label>
+            <select name="host_has_profile_pic" id="host_has_profile_pic">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+        </div>
 
-        <label for="verify">Verified Host:</label>
-        <select name="verify" id="verify">
-            <option value="1">Yes</option>
-            <option value="0">No</option>
-        </select>
+        <div class="form-group">
+            <label for="host_identity_verified">Verified Host:</label>
+            <select name="host_identity_verified" id="host_identity_verified">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+        </div>
 
-        <label for="hostresponse">Host Response Rate:</label>
-        <input type="number" name="hostresponse" id="hostresponse" value="0" min="0" max="100">
+        <div class="form-group">
+            <label for="host_response_rate">Host Response Rate:</label>
+            <input type="number" name="host_response_rate" id="host_response_rate" value="0" min="0" max="100">
+        </div>
 
-        <label for="instbook">Instant Booking:</label>
-        <select name="instbook" id="instbook">
-            <option value="1">Yes</option>
-            <option value="0">No</option>
-        </select>
+        <div class="form-group">
+            <label for="instant_bookable">Instant Booking:</label>
+            <select name="instant_bookable" id="instant_bookable">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+        </div>
 
-        <label for="lat">Latitude:</label>
-        <input type="number" name="lat" id="lat" value="0.0" step="0.000001">
+        <div class="form-group">
+            <label for="latitude">Latitude:</label>
+            <input type="number" name="latitude" id="latitude" value="0.0" step="0.000001">
+        </div>
 
-        <label for="long">Longitude:</label>
-        <input type="number" name="long" id="long" value="0.0" step="0.000001">
+        <div class="form-group">
+            <label for="longitude">Longitude:</label>
+            <input type="number" name="longitude" id="longitude" value="0.0" step="0.000001">
+        </div>
 
-        <label for="review">Number of Reviews:</label>
-        <input type="number" name="review" id="review" value="0" min="0" max="1000">
+        <div class="form-group">
+            <label for="number_of_reviews">Number of Reviews:</label>
+            <input type="number" name="number_of_reviews" id="number_of_reviews" value="0" min="0" max="1000">
+        </div>
 
-        <label for="overallreview">Review Rating:</label>
-        <input type="number" name="overallreview" id="overallreview" value="0" min="0" max="100">
+        <div class="form-group">
+            <label for="review_scores_rating">Review Rating:</label>
+            <input type="number" name="review_scores_rating" id="review_scores_rating" value="0" min="0" max="100">
+        </div>
 
         <input type="submit" value="Predict Price">
     </form>
-    <center><div id="result"></div></center>
-    
+    <div id="result">
+        <h3>Your Airbnb Room Price will be <span id="finalResult">{{result}}</span></h3>
+    </div>
+
 </body>
+
 </html>

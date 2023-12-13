@@ -1,7 +1,3 @@
-import os
-import sys
-from src.Airbnb.logger import logging
-from src.Airbnb.exception import customexception
 from src.Airbnb.components.Data_ingestion import DataIngestion
 from src.Airbnb.components.Data_transformation import DataTransformation
 from src.Airbnb.components.Model_trainer import ModelTrainer

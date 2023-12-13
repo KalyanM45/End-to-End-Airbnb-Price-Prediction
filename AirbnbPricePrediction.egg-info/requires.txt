@@ -7,3 +7,4 @@ catboost
 dvc
 catboost
 xgboost
+seaborn
